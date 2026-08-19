@@ -114,7 +114,7 @@ def render_level2(user, supabase_client):
     # Section 1: Deployment Repository
     st.markdown("#### Deployment Repository")
     st.caption("The following files were found in the DataForge ML GitHub repository.")
-    tab1, tab2, tab3 = st.tabs(["model_loader.py", "requirements.txt", "model_loader_hardened.py"])
+    tab1, tab2, tab3 = st.tabs(["model_loader.py [Evidence — Do Not Delete]", "requirements_hardened.txt", "model_loader_hardened.py"])
     with tab1:
         st.code(
             '# model_loader.py\n'
@@ -153,19 +153,68 @@ def render_level2(user, supabase_client):
     with tab2:
         st.code(
             'numpy==1.24.3\npandas==2.0.1\nscikit-learn==1.3.0\n'
-            'requests==2.31.0\nhuggingface-hub==0.16.4\nbiopython==1.81\ntorch==2.0.1',
-            language="text",
+            'requests==2.31.0\nhuggingface-hub==0.16.4\nbiopython==1.81\ntorch==2.0.1\n'
+            'safetensors==0.4.0\n'
+            'picklescan==0.0.14',
         )
     with tab3:
         st.caption("This is your workspace. Open levels/level2_dataforge.py in your forked Codespace and replace this placeholder with your hardened version.")
         st.code(
+            
             '# model_loader_hardened.py\n'
             '# DataForge ML — Genomics Analysis Pipeline\n'
-            '#\n'
-            '# This is your workspace.\n'
-            '# Open levels/level2_dataforge.py in your forked Codespace.\n'
-            '# Replace this placeholder with your hardened version of model_loader.py.\n'
-            '# Your commit showing this change is your Level 2 portfolio evidence.',
+            '# SECURITY PATCH — Patched by: [Ebiloma Adejoh] — [19/08/26]\n'
+            '# Changes: removed unsafe pickle loading, added Picklescan gate, switched to safetensors\n\n'
+            'import subprocess\n'
+            'from pathlib import Path\n\n'
+            'MODEL_REPO  = "verified-org/genomics-analyzer-v2"\n'
+            'MODEL_FILE  = "genomics_analyzer_v2.safetensors"\n'
+            'MODEL_PATH  = Path("/tmp") / MODEL_FILE\n\n\n'
+            'def scan_model_before_loading(model_path: Path) -> None:\n'
+            '    """\n'
+            '    Security gate: run Picklescan before loading.\n'
+            '    Raises RuntimeError if any threat is detected.\n'
+            '    load_model() cannot proceed if this raises.\n'
+            '    """\n'
+            '    result = subprocess.run(\n'
+            '        ["picklescan", "-p", str(model_path)],\n'
+            '        capture_output=True, text=True\n'
+            '    )\n'
+            '    if "FOUND" in result.stdout:\n'
+            '        raise RuntimeError(\n'
+            '            f"SECURITY ALERT: Dangerous payload in {model_path}. "\n'
+            '            f"Aborting. Details: {result.stdout}"\n'
+            '        )\n'
+            '    print(f"[SCAN] {model_path.name} passed. Safe to load.")\n\n\n'
+            'def download_model() -> Path:\n'
+            '    """Download model weights from verified Hugging Face repository."""\n'
+            '    if not MODEL_PATH.exists():\n'
+            '        import requests\n'
+            '        response = requests.get(\n'
+            '            f"https://huggingface.co/{MODEL_REPO}/resolve/main/{MODEL_FILE}",\n'
+            '            stream=True\n'
+            '        )\n'
+            '        with open(MODEL_PATH, "wb") as f:\n'
+            '            for chunk in response.iter_content(chunk_size=8192):\n'
+            '                f.write(chunk)\n'
+            '    return MODEL_PATH\n\n\n'
+            'def load_model():\n'
+            '    """\n'
+            '    Load model with mandatory pre-scan verification.\n'
+            '    PATCHED: scan gate runs before load.\n'
+            '    PATCHED: safetensors format — cannot execute arbitrary code.\n'
+            '    """\n'
+            '    model_path = download_model()\n'
+            '    scan_model_before_loading(model_path)\n'
+            '    from safetensors import safe_open\n'
+            '    tensors = {}\n'
+            '    with safe_open(str(model_path), framework="pt") as f:\n'
+            '        for key in f.keys():\n'
+            '            tensors[key] = f.get_tensor(key)\n'
+            '    return tensors\n\n\n'
+            'def analyze_sample(sample_data: dict) -> dict:\n'
+            '    model = load_model()\n'
+            '    return {"status": "complete", "model_keys": list(model.keys())}',
             language="python",
         )
 
