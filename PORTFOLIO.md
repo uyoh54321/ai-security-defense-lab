@@ -27,8 +27,9 @@ Fill in each section as you complete a level. Link directly to your commit diff 
 **Skills:** CloudTrail Log Forensics · IAM Least Privilege · Secrets Management · Incident Timeline Reporting
 
 **Others:**
-- [Technical write-up link e.g. Medium blog post]
-- [LinkedIn post link]
+- https://medium.com/@uyoh54321/investigating-a-cloud-security-incident-at-medvitals-ai-level-1-23618ef6824a
+-  https://www.linkedin.com/posts/adejoh_cybersecurity-cloudsecurity-aws-activity-7490134613768536064-9g76?                                  utm_source=share&utm_medium=member_ios&rcm=ACoAAC006sYBsguhtWGOFfe1PWJIvpnCPGq7ggk
+-  
 - [Any other documentation, video walkthrough, or public content]
 
 ---
@@ -39,7 +40,7 @@ Fill in each section as you complete a level. Link directly to your commit diff 
 
 **Method:**
 
-**Evidence:** [Link to commit]
+**Evidence:** https://github.com/uyoh54321/ai-security-defense-lab/commit/4f8d58fb579f3a09b77e62d066c7affced56530c
 
 **Outcome:**
 
@@ -47,7 +48,8 @@ Fill in each section as you complete a level. Link directly to your commit diff 
 
 **Others:**
 - [Technical write-up link]
-- [LinkedIn post link]
+- https://www.linkedin.com/posts/adejoh_aisecurity-cybersecurity-ai-activity-7495982538427899904-oDdm?
+  utm_source=share&utm_medium=member_ios&rcm=ACoAAC006sYBsguhtWGOFfe1PWJIvpnCPGq7ggk
 
 ---
 
