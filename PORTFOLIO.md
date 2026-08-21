@@ -36,11 +36,11 @@
 
 ## Level 2 — DataForge ML · AI Model Security
 
-**Problem:**The application was downloading a machine-learning model from an external Hugging Face repository and loading it using Python's pickle.load.
+**Problem:** The application was downloading a machine-learning model from an external Hugging Face repository and loading it using Python's pickle.load.
 
 The security concern was that a Pickle file can contain executable Python objects. If the model had been modified or maliciously packaged, loading it could potentially allow code execution inside the application environment.
 
-**Method:**I approached it as a practical security investigation:
+**Method:** I approached it as a practical security investigation:
 
 1)Inspected the model-loading code to understand how the application obtained and loaded the model.
 2)Identified the external model source on Hugging Face.
@@ -53,7 +53,7 @@ The security concern was that a Pickle file can contain executable Python object
 
 **Evidence:** https://github.com/uyoh54321/ai-security-defense-lab/commit/4f8d58fb579f3a09b77e62d066c7affced56530c
 
-**Outcome:**I was able to demonstrate that the model artifact should not automatically be trusted.
+**Outcome:** I was able to demonstrate that the model artifact should not automatically be trusted.
 
 The scan provided concrete evidence of a security concern: one dangerous global was detected.
 
