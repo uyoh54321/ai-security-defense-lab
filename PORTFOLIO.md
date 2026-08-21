@@ -30,7 +30,7 @@
 - https://medium.com/@uyoh54321/investigating-a-cloud-security-incident-at-medvitals-ai-level-1-23618ef6824a
 -  https://www.linkedin.com/posts/adejoh_cybersecurity-cloudsecurity-aws-activity-7490134613768536064-9g76?                                  utm_source=share&utm_medium=member_ios&rcm=ACoAAC006sYBsguhtWGOFfe1PWJIvpnCPGq7ggk
 -  
-- [Any other documentation, video walkthrough, or public content]
+- 
 
 ---
 
@@ -66,7 +66,7 @@ That's an important outcome because you didn't just run a security tool—you in
 **Skills:** Model Supply Chain Verification · Pickle Exploit Detection · Safetensors · Automated Model Scanning
 
 **Others:**
-- [Technical write-up link]
+- https://github.com/uyoh54321/hernetiq-fellowship-portfolio/blob/main/week%20-6/Model%20Threat%20Assessment.md
 - https://www.linkedin.com/posts/adejoh_aisecurity-cybersecurity-ai-activity-7495982538427899904-oDdm?
   utm_source=share&utm_medium=member_ios&rcm=ACoAAC006sYBsguhtWGOFfe1PWJIvpnCPGq7ggk
 
