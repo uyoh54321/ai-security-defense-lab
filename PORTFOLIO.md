@@ -36,13 +36,32 @@ Fill in each section as you complete a level. Link directly to your commit diff 
 
 ## Level 2 — DataForge ML · AI Model Security
 
-**Problem:**
+**Problem:**The application was downloading a machine-learning model from an external Hugging Face repository and loading it using Python's pickle.load().
 
-**Method:**
+The security concern was that a Pickle file can contain executable Python objects. If the model had been modified or maliciously packaged, loading it could potentially allow code execution inside the application environment.
+
+**Method:**I approached it as a practical security investigation:
+
+Inspected the model-loading code to understand how the application obtained and loaded the model.
+Identified the external model source on Hugging Face.
+Recognized the security risk of Python Pickle deserialization.
+Used PickleScan to scan the model artifact.
+Analyzed the scan results rather than assuming the model was safe.
+Mapped the findings to OWASP LLM and MITRE ATLAS as required by the assessment.
+Documented the risk and remediation in an eight-field Model Threat Assessment.
+Recommended controls such as model provenance verification, artifact scanning, safer serialization, model isolation, and integrity checking.
 
 **Evidence:** https://github.com/uyoh54321/ai-security-defense-lab/commit/4f8d58fb579f3a09b77e62d066c7affced56530c
 
-**Outcome:**
+**Outcome:**I was able to demonstrate that the model artifact should not automatically be trusted.
+
+The scan provided concrete evidence of a security concern: one dangerous global was detected.
+
+i then converted that technical finding into a business-level risk assessment explaining:
+
+What happened → why it matters → potential impact → what should be done about it.
+
+That's an important outcome because you didn't just run a security tool—you interpreted the result and translated it into a security decision.
 
 **Skills:** Model Supply Chain Verification · Pickle Exploit Detection · Safetensors · Automated Model Scanning
 
