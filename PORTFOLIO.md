@@ -10,7 +10,7 @@
 
 ---
 
-Fill in each section as you complete a level. Link directly to your commit diff so a recruiter can see exactly what you changed.
+
 
 ---
 
@@ -44,12 +44,12 @@ The security concern was that a Pickle file can contain executable Python object
 
 1)Inspected the model-loading code to understand how the application obtained and loaded the model.
 2)Identified the external model source on Hugging Face.
-Recognized the security risk of Python Pickle deserialization.
-Used PickleScan to scan the model artifact.
-Analyzed the scan results rather than assuming the model was safe.
-Mapped the findings to OWASP LLM and MITRE ATLAS as required by the assessment.
-Documented the risk and remediation in an eight-field Model Threat Assessment.
-Recommended controls such as model provenance verification, artifact scanning, safer serialization, model isolation, and integrity checking.
+3)Recognized the security risk of Python Pickle deserialization.
+4)Used PickleScan to scan the model artifact.
+5)Analyzed the scan results rather than assuming the model was safe.
+6)Mapped the findings to OWASP LLM and MITRE ATLAS as required by the assessment.
+7)Documented the risk and remediation in an eight-field Model Threat Assessment.
+8)Recommended controls such as model provenance verification, artifact scanning, safer serialization, model isolation, and integrity        checking.
 
 **Evidence:** https://github.com/uyoh54321/ai-security-defense-lab/commit/4f8d58fb579f3a09b77e62d066c7affced56530c
 
