@@ -16,15 +16,91 @@
 
 ## Level 1 — MedVitals AI · Cloud Infrastructure Security
 
-**Problem:** A developer hardcoded live AWS credentials into the application's deployment configuration and committed them to a public GitHub repository. In addition, the IAM deployment role was configured with wildcard (Action: * and Resource: *) permissions, granting unrestricted administrative access. An attacker who discovered the exposed credentials could authenticate to the AWS environment, assume the privileged role, enumerate cloud resources, and access or modify sensitive patient data stored in Amazon S3.
+**Scenario/Investigation:** MedVitals AI is a simulated HealthTech application requiring a cloud infrastructure security assessment.
 
-**Method:** I investigated the deployment repository by reviewing the config.py and deploy-role-policy.json files to identify the security weaknesses. I then analyzed the AWS CloudTrail Event History to reconstruct the attack sequence and distinguish malicious activity from normal system events. To remediate the vulnerabilities, I replaced all hardcoded AWS credentials with environment variables using os.environ.get() and stored the secrets securely outside the source code. I also replaced the wildcard IAM policy with a least-privilege policy that grants only the permissions required by the application.
+I investigated the application's deployment configuration and AWS environment to identify exposed credentials, excessive IAM permissions, and potential attack paths to sensitive cloud resources.
 
-**Evidence:** https://github.com/AibinuolaDamilola/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139
+I reviewed the deployment repository, including 'config.py' and  'deploy-role-policy.json ', and analyzed AWS CloudTrail Event History to reconstruct the potential attack sequence and distinguish malicious activity from normal system events.
 
-**Outcome:** The application no longer exposes AWS credentials in the source code, significantly reducing the risk of credential theft. The IAM role now follows the Principle of Least Privilege, limiting access to only the AWS resources required for normal operation. These improvements reduce the attack surface, better protect sensitive patient information, and strengthen the organization's overall cloud security posture. After implementing the fixes, Level 1 was successfully completed and Level 2 was unlocked.
+**Problem/Vulnirability:** I identified two significant cloud security vulnerabilities:
 
-**Skills:** CloudTrail Log Forensics · IAM Least Privilege · Secrets Management · Incident Timeline Reporting
+**1. Exposed AWS Credentials**
+
+Live AWS credentials were hardcoded into the application's deployment configuration and committed to a public GitHub repository.
+
+An attacker who discovered the exposed credentials could potentially authenticate to the AWS environment, assume the privileged deployment role, enumerate cloud resources, and access or modify sensitive patient data stored in Amazon S3.
+
+**2. Excessive IAM Permissions**
+
+The deployment IAM role was configured with unrestricted wildcard permissions:
+
+Action: *
+Resource: *
+
+This violated the Principle of Least Privilege by granting the role access beyond what the application required.
+
+The combination of exposed credentials and excessive IAM permissions significantly increased the potential impact of a credential compromise.
+
+**Evidence:** 
+The investigation was supported by:
+
+* `config.py` — deployment configuration containing the exposed AWS credentials.
+* `deploy-role-policy.json` — IAM policy containing wildcard permissions.
+* AWS CloudTrail Event History — used to reconstruct the potential attack sequence and distinguish malicious activity from normal system events.
+* GitHub remediation commit documenting the security changes.
+
+### Remediation Commit
+https://github.com/AibinuolaDamilola/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139
+
+## Remediation
+
+I removed the hardcoded AWS credentials from the application's source code and replaced them with environment-based configuration using:
+
+```python
+os.environ.get()
+```
+
+This ensures that sensitive credentials are stored outside the source code rather than being embedded directly in the application.
+
+I also replaced the wildcard IAM policy with a **least-privilege IAM policy**, granting only the permissions required by the application.
+
+These changes address both major findings by reducing the risk of credential exposure and limiting the potential impact of a compromised AWS identity.
+
+
+## Commit
+
+[Level 1 — Cloud Security Remediation Commit](https://github.com/AibinuolaDamilola/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139)
+
+## Outcome
+
+After remediation:
+
+* AWS credentials are no longer exposed in the application's source code.
+* The deployment IAM role follows the Principle of Least Privilege.
+* Access is restricted to the AWS resources and permissions required for normal application operation.
+* The overall cloud attack surface is reduced.
+* Sensitive patient information receives stronger protection.
+
+**Level Status: Completed**
+
+Level 1 was successfully completed and Level 2 was unlocked.
+
+## Skills Demonstrated
+
+* **CloudTrail Log Forensics**
+* **IAM Least Privilege**
+* **Secrets Management**
+* **Incident Timeline Reporting**
+
+## Supporting Artifacts
+
+* Deployment configuration analysis
+* IAM policy analysis
+* AWS CloudTrail Event History analysis
+* GitHub remediation commit
+
+
+
 
 **Others:**
 - https://medium.com/@uyoh54321/investigating-a-cloud-security-incident-at-medvitals-ai-level-1-23618ef6824a
