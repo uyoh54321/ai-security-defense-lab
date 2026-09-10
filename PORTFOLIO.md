@@ -112,34 +112,92 @@ Level 1 was successfully completed and Level 2 was unlocked.
 
 ## Level 2 — DataForge ML · AI Model Security
 
-**Problem:** The application was downloading a machine-learning model from an external Hugging Face repository and loading it using Python's pickle.load.
+## Scenario / Investigation
 
-The security concern was that a Pickle file can contain executable Python objects. If the model had been modified or maliciously packaged, loading it could potentially allow code execution inside the application environment.
+DataForge ML is a simulated machine-learning application that downloads a machine-learning model from an external Hugging Face repository.
 
-**Method:** I approached it as a practical security investigation:
+I investigated the application's model-loading process to determine whether the externally sourced model artifact could introduce a security risk when loaded into the application environment.
 
-1)Inspected the model-loading code to understand how the application obtained and loaded the model.
-2)Identified the external model source on Hugging Face.
-3)Recognized the security risk of Python Pickle deserialization.
-4)Used PickleScan to scan the model artifact.
-5)Analyzed the scan results rather than assuming the model was safe.
-6)Mapped the findings to OWASP LLM and MITRE ATLAS as required by the assessment.
-7)Documented the risk and remediation in an eight-field Model Threat Assessment.
-8)Recommended controls such as model provenance verification, artifact scanning, safer serialization, model isolation, and integrity        checking.
+The investigation focused on the use of Python's `pickle.load` for model deserialization.
+
+## Problem / Vulnerability
+
+The application downloaded an ML model from an external Hugging Face repository and loaded it using:
+
+```python
+pickle.load()
+```
+
+The security concern was that Python Pickle files can contain executable Python objects. If the model artifact had been modified or maliciously packaged, loading it could potentially allow code execution inside the application environment.
+
+The key security issue was the implicit trust placed in an externally sourced model artifact during deserialization.
 
 **Evidence:** https://github.com/uyoh54321/ai-security-defense-lab/commit/4f8d58fb579f3a09b77e62d066c7affced56530c
 
-**Outcome:** I was able to demonstrate that the model artifact should not automatically be trusted.
+## Evidence
 
-The scan provided concrete evidence of a security concern: one dangerous global was detected.
+I conducted the following investigation:
 
-i then converted that technical finding into a business-level risk assessment explaining:
+1. Inspected the model-loading code to understand how the application obtained and loaded the model.
+2. Identified the external model source on Hugging Face.
+3. Analyzed the security risk associated with Python Pickle deserialization.
+4. Used **PickleScan** to scan the model artifact.
+5. Analyzed the scan results rather than assuming the model was safe.
+6. Mapped the finding to **OWASP LLM** and **MITRE ATLAS**.
+7. Documented the risk using an eight-field **Model Threat Assessment**.
 
-What happened → why it matters → potential impact → what should be done about it.
+The PickleScan scan detected **one dangerous global**, providing concrete evidence that the model artifact required further security assessment.
 
-That's an important outcome because you didn't just run a security tool—you interpreted the result and translated it into a security decision.
+### Evidence Commit
 
-**Skills:** Model Supply Chain Verification · Pickle Exploit Detection · Safetensors · Automated Model Scanning
+[View GitHub Commit](https://github.com/uyoh54321/ai-security-defense-lab/commit/4f8d58fb579f3a09b77e62d066c7affced56530c)
+
+## Remediation
+
+Based on the investigation, I identified controls to reduce the risk associated with externally sourced model artifacts.
+
+Recommended controls included:
+
+* **Model provenance verification** — verify where the model originated and whether the source is trusted.
+* **Automated model scanning** — scan model artifacts before they are loaded or deployed.
+* **Safer serialization** — use safer model serialization formats such as **Safetensors** where supported.
+* **Model isolation** — isolate model loading and execution from sensitive application resources.
+* **Integrity checking** — verify model artifacts have not been modified before use.
+
+I also converted the technical finding into a business-level risk assessment covering:
+
+**What happened → Why it matters → Potential impact → What should be done**
+
+## Commit
+
+[Level 2 — Model Security Assessment Commit](https://github.com/uyoh54321/ai-security-defense-lab/commit/4f8d58fb579f3a09b77e62d066c7affced56530c)
+
+## Outcome
+
+The investigation demonstrated that an externally sourced machine-learning model artifact should **not automatically be trusted**.
+
+PickleScan provided concrete evidence of a security concern by detecting one dangerous global in the model artifact.
+
+I then translated the technical finding into a security decision by documenting the risk, potential impact, and recommended controls.
+
+This investigation strengthened my ability to assess **AI model supply-chain risk**, interpret model-scanning results, and communicate technical security findings at both technical and business levels.
+
+**Level Status: Completed**
+
+## Skills Demonstrated
+
+* **Model Supply Chain Verification**
+* **Pickle Exploit Detection**
+* **Safetensors**
+* **Automated Model Scanning**
+
+## Supporting Artifacts
+
+* PickleScan model scan
+* Eight-field Model Threat Assessment
+* OWASP LLM mapping
+* MITRE ATLAS mapping
+* GitHub evidence / assessment commit
 
 **Others:**
 - https://github.com/uyoh54321/hernetiq-fellowship-portfolio/blob/main/week%20-6/Model%20Threat%20Assessment.md
