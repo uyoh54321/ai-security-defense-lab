@@ -207,20 +207,135 @@ This investigation strengthened my ability to assess **AI model supply-chain ris
 ---
 
 ## Level 3 — CartBot AI · Application & API Security
+## Scenario / Investigation
 
-**Problem:**CartBot AI’s customer-facing API trusted a client-supplied `customer_id` header with no cryptographic verification.
+CartBot AI is a simulated AI-powered e-commerce application requiring an application and API security assessment.
 
-**Method:** Audited `api_config.py` and identified `TRUST_CUSTOMER_ID_HEADER = True`, `REQUIRE_JWT_VALIDATION = False`, and `RATE_LIMIT_ENABLED = False`. Queried the CartBot AI assistant to trigger the indirect prompt injection, demonstrated BOLA by accessing another customer’s orders, ran the Bulk Harvest simulation, and used Semgrep to identify the vulnerable patterns.
+I investigated the application's authentication, authorization, prompt-injection, data-exfiltration, and rate-limiting controls.
 
-**Evidence:** https://github.com/uyoh54321/ai-security-defense-lab/commit/0325456214cc16b869e1598573ac6e849c4454b1
+I reviewed `api_config.py`, interacted with the CartBot AI assistant, tested for indirect prompt injection, demonstrated Broken Object Level Authorization (BOLA), ran the Bulk Harvest simulation, and used Semgrep to identify vulnerable patterns.
 
-**Outcome:** The API can no longer be BOLA’d via header spoofing — JWT validation verifies the requester and requested customer ID, rate limiting is enabled, and the system prompt restricts customer-data retrieval while treating product content as untrusted data.
+## Problem / Vulnerability
 
-**Skills:** AI API Hardening · Rate Limiting · Output Filtering · OWASP LLM Top 10 · Direct Prompt Injection Defence, MITRE ATLAS AML.T0054 (LLM Data Exfiltration) · JWT authentication · Rate limiting / Denial of Wallet mitigation · Semgrep static analysis · Defence-in-depth architecture
+The API trusted a client-supplied `customer_id` header without cryptographic verification.
+
+The application configuration contained:
+
+```text
+TRUST_CUSTOMER_ID_HEADER = True
+REQUIRE_JWT_VALIDATION = False
+RATE_LIMIT_ENABLED = False
+```
+
+This created multiple security weaknesses.
+
+### 1. Broken Object Level Authorization (BOLA)
+
+Because the API trusted the client-supplied `customer_id`, I was able to demonstrate unauthorized access to another customer's orders by manipulating the customer identifier.
+
+### 2. Authentication Weakness
+
+JWT validation was disabled, meaning the API did not properly validate the identity associated with the request before processing customer-data requests.
+
+### 3. Rate-Limiting Weakness
+
+Rate limiting was disabled, increasing the risk of automated requests, bulk harvesting, and Denial-of-Wallet scenarios.
+
+### 4. Indirect Prompt Injection
+
+I also tested the CartBot AI assistant for indirect prompt injection involving untrusted product content and customer-data retrieval.
+
+## Evidence
+
+The investigation included:
+
+* Review of `api_config.py`.
+* Testing of the CartBot AI assistant.
+* Indirect prompt-injection testing.
+* BOLA demonstration by manipulating the customer ID.
+* Bulk Harvest simulation.
+* Semgrep static analysis to identify vulnerable patterns.
+### Remediation Commit
+
+[View GitHub Commit](https://github.com/uyoh54321/ai-security-defense-lab/commit/0325456214cc16b869e1598573ac6e849c4454b1)
+
+## Remediation
+
+I implemented multiple security controls to address the identified weaknesses.
+
+### Authentication and Authorization
+
+JWT validation was enabled to verify the requester.
+
+Authorization controls were added to verify that the authenticated requester is permitted to access the requested customer ID.
+
+The client-supplied customer ID was no longer treated as a trusted security boundary.
+
+### Rate Limiting
+
+Rate limiting was enabled to reduce automated abuse, bulk harvesting, and Denial-of-Wallet risk.
+
+### Prompt Injection Defense
+
+The system prompt was strengthened to restrict customer-data retrieval.
+
+Product content was treated as **untrusted data** rather than trusted instructions.
+
+### Defense in Depth
+
+Output filtering and Semgrep static analysis were used as additional defensive layers.
+
+The remediation follows a **defense-in-depth** approach rather than relying on a single security control.
+
+## Commit
+
+[Level 3 — Application & API Security Remediation Commit](https://github.com/uyoh54321/ai-security-defense-lab/commit/0325456214cc16b869e1598573ac6e849c4454b1)
+
+## Outcome
+
+The API can no longer be BOLA'd through the previously demonstrated header-spoofing path.
+
+JWT validation now verifies the requester, while authorization controls verify access to the requested customer data.
+
+Rate limiting reduces the ability to perform automated bulk requests.
+
+The system-prompt controls establish stronger boundaries around customer-data retrieval while treating product content as untrusted input.
+
+These controls reduce exposure to:
+
+* Unauthorized customer-data access
+* Automated data harvesting
+* Prompt-injection-driven data exposure
+* Denial-of-Wallet scenarios
+
+**Level Status: Completed**
+
+## Skills Demonstrated
+
+* **AI API Hardening**
+* **JWT Authentication**
+* **Object-Level Authorization**
+* **Rate Limiting**
+* **Denial-of-Wallet Mitigation**
+* **Output Filtering**
+* **OWASP LLM Top 10**
+* **Prompt Injection Defense**
+* **MITRE ATLAS AML.T0054 — LLM Data Exfiltration**
+* **Semgrep Static Analysis**
+* **Defense-in-Depth Architecture**
+
+## Supporting Artifacts
+
+* API configuration audit
+* BOLA demonstration
+* Bulk Harvest simulation
+* Prompt-injection testing
+* Semgrep static-analysis results
+* GitHub remediation commit
 
 **Others:**
 - https://github.com/uyoh54321/hernetiq-fellowship-portfolio/blob/main/week%208/API%20security%20threat%20model.md
-- [LinkedIn post link]
+- https://www.linkedin.com/posts/adejoh_aisecurity-cybersecurity-apisecurity-activity-7501320215545270272-G3Nn?utm_source=share&utm_medium=member_ios&rcm=ACoAAC006sYBsguhtWGOFfe1PWJIvpnCPGq7ggk 
 
 ---
 
