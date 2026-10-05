@@ -341,15 +341,20 @@ These controls reduce exposure to:
 
 ## Level 4 — PayGuard · Data Security in AI
 
-**Problem:**
 
-**Method:**
+**Problem:** PayGuard's RAG-powered AI advisory assistant retrieved documents from a shared vector database without effective per-tenant access enforcement. A client-supplied `tenant_id` could be manipulated to trigger cross-tenant retrieval.
 
-**Evidence:** [Link to commit]
+**Method:** Audited `rag_config.py` and identified `TRUST_CLIENT_TENANT_ID = True` and `METADATA_FILTER_ENFORCED = False`. Tested the retrieval path by spoofing the `tenant_id` field and validating whether documents belonging to another tenant could be returned.
 
-**Outcome:**
+**Evidence:** Cross-tenant retrieval was successfully demonstrated across multiple tenant contexts. The vulnerability was traced to client-controlled tenant selection and the absence of enforced metadata filtering.
 
-**Skills:** STRIDE Threat Modeling · RAG Pipeline Security · Multi-Tenant Data Isolation · Indirect Prompt Injection Defence
+**Remediation:** Implemented server-side tenant binding and mandatory metadata filtering at the vector database query layer. Tenant identity is derived from the authenticated security context rather than trusted client input.
+
+**Outcome:** Cross-tenant retrieval is blocked by the authorization boundary, preventing a client from selecting another tenant through `tenant_id`. Database-level enforcement also provides defense in depth if an application-layer check is accidentally omitted in future code changes.
+
+**Skills:** RAG security · Vector database access control · Multi-tenant isolation · OWASP LLM Top 10 · STRIDE threat modeling · Airflow pipeline security · Database-level authorization · Semgrep static analysis
+
+**Commit:** `https://github.com/uyoh54321/ai-security-defense-lab/commit/a9411cb88ff7e2d7ef0831e260bd54fa44c6085c
 
 **Others:**
 - [Technical write-up link]
