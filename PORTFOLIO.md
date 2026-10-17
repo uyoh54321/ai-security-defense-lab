@@ -2,7 +2,7 @@
 
 **Student:** Ebiloma Adejoh
 
-**GitHub:** https://github.com/AibinuolaDamilola/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139
+**GitHub:** https://github.com/uyoh54321/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139
 
 **Hugging Face Space:** [Your HF Space URL]
 
@@ -50,7 +50,7 @@ The investigation was supported by:
 * GitHub remediation commit documenting the security changes.
 
 ### Remediation Commit
-https://github.com/AibinuolaDamilola/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139
+https://github.com/uyoh54321/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139
 
 ## Remediation
 
@@ -69,7 +69,7 @@ These changes address both major findings by reducing the risk of credential exp
 
 ## Commit
 
-[Level 1 — Cloud Security Remediation Commit](https://github.com/AibinuolaDamilola/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139)
+[Level 1 — Cloud Security Remediation Commit]( https://github.com/uyoh54321/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139 )
 
 ## Outcome
 
