@@ -4,7 +4,7 @@
 
 **GitHub:** https://github.com/uyoh54321/ai-security-defense-lab/commit/a6575fe88f76c366a33c1fc917ad8018d7d9c139
 
-**Hugging Face Space:** [Your HF Space URL]
+**Hugging Face Space:** https://ai-security-defense-lab-uyohs.streamlit.app/
 
 **Completed:** 3/july/2026
 
