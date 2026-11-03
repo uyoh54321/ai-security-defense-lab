@@ -364,15 +364,15 @@ These controls reduce exposure to:
 
 ## Level 5 — LegalBot Municipal · Agentic AI Security
 
-**Problem:**
+**Problem:** The LegalBot AI agent had excessive permissions and autonomy, exposing it to indirect prompt injection, unauthorized legal actions and inadequate human oversight.
 
-**Method:**
+**Method:**  Applied NIST AI RMF (Govern, Map, Measure, Manage), MAESTRO’s seven-layer threat-modelling framework and OWASP Agentic Security to identify and assess vulnerabilities.
 
-**Evidence:** [Link to commit]
+**Evidence:** https://github.com/uyoh54321/ai-security-defense-lab/commit/f766f3d3dc90f1013470528e288e4d8f93aed196
 
-**Outcome:**
+**Outcome:**  Identified critical security gaps and recommended least-privilege access, stronger authorization controls and mandatory human approval for high-impact legal decisions
 
-**Skills:** Excessive Agency Mitigation · Llama Guard Integration · Pydantic Schema Enforcement · Autonomous Agent Containment
+**Skills:** Excessive Agency Mitigation · Llama Guard Integration · Pydantic Schema Enforcement · Autonomous Agent Containment * AI Threat Modelling AI Governance and Risk Management Vulnerability Assessment  Prompt Injection Analysis  Access Control Analysis  Security Framework Mapping Technical Documentation
 
 **Others:**
 - [Technical write-up link]
